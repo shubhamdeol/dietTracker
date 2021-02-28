@@ -2,20 +2,35 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 
-import { Home } from "../screens";
+import { Home, RecordEntry } from "../screens";
 
-const Root = createStackNavigator();
+export type RootStackParamList = {
+  Home: undefined;
+  RecordEntry: undefined;
+};
+
+const RootStack = createStackNavigator<RootStackParamList>();
 
 const RootNavigator = () => {
   return (
     <NavigationContainer>
-      <Root.Navigator
+      <RootStack.Navigator
         screenOptions={{
           headerShown: false,
+          headerBackTitleVisible: false,
         }}
+        mode="modal"
       >
-        <Root.Screen name="Home" component={Home} />
-      </Root.Navigator>
+        <RootStack.Screen name="Home" component={Home} />
+        <RootStack.Screen
+          name="RecordEntry"
+          component={RecordEntry}
+          options={{
+            headerShown: true,
+            title: "Record Item",
+          }}
+        />
+      </RootStack.Navigator>
     </NavigationContainer>
   );
 };

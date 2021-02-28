@@ -1,12 +1,26 @@
+import { StackNavigationProp } from "@react-navigation/stack";
 import React from "react";
-import { View, Text } from "react-native";
 import { Div } from "react-native-magnus";
 
-const Home = () => {
+import { Background, Button } from "../common";
+import { RootStackParamList } from "../navigation/RootNavigator";
+
+type Props = {
+  navigation: StackNavigationProp<RootStackParamList>;
+};
+
+const Home: React.FC<Props> = ({ navigation: { navigate } }) => {
   return (
-    <Div>
-      <Text>Hey</Text>
-    </Div>
+    <Background>
+      <Div flex={1} justifyContent="flex-end">
+        <Button
+          title="Record Entry"
+          px="2xl"
+          mb="3xl"
+          onPress={() => navigate("RecordEntry")}
+        />
+      </Div>
+    </Background>
   );
 };
 
