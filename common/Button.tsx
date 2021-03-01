@@ -22,6 +22,7 @@ const Button: React.FC<Props> = ({ title, mode, ...other }) => {
           borderColor={colors.border}
           color={colors.primary}
           shadow={2}
+          h={50}
           alignSelf="center"
           {...other}
         >
@@ -36,6 +37,7 @@ const Button: React.FC<Props> = ({ title, mode, ...other }) => {
           bg={colors.primary}
           rounded="circle"
           shadow={2}
+          h={50}
           alignSelf="center"
           {...other}
         >
