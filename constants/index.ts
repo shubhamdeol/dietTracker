@@ -1,7 +1,9 @@
-export const RATING_KINDS: {
+export type RatingType = {
   value: 0 | 1 | 2 | 3 | 4;
   label: "Severe" | "Bad" | "Okay" | "Good" | "Excellent";
-}[] = [
+};
+
+export const RATING_KINDS: RatingType[] = [
   {
     value: 0,
     label: "Severe",

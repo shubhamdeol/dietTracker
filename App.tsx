@@ -6,16 +6,21 @@ import { ThemeProvider } from "react-native-magnus";
 import { RecoilRoot } from "recoil";
 
 import { Navigation } from "./navigation";
+import Persister from "./store/Perister";
+
+export const persistInfo: any = {};
 
 export default function App() {
   return (
     <ThemeProvider>
       <RecoilRoot>
-        <SafeAreaView style={{ flex: 1 }}>
-          <SafeAreaView style={{ flex: 0 }} />
-          <StatusBar style="auto" />
-          <Navigation />
-        </SafeAreaView>
+        <Persister>
+          <SafeAreaView style={{ flex: 1 }}>
+            <SafeAreaView style={{ flex: 0 }} />
+            <StatusBar style="auto" />
+            <Navigation />
+          </SafeAreaView>
+        </Persister>
       </RecoilRoot>
     </ThemeProvider>
   );

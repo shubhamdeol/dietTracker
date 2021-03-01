@@ -29,6 +29,21 @@ const Button: React.FC<Props> = ({ title, mode, ...other }) => {
           {title}
         </MagnusButton>
       );
+    case "text":
+      return (
+        <MagnusButton
+          px="xl"
+          bg="#fff"
+          rounded="circle"
+          color={colors.primary}
+          shadow={2}
+          h={40}
+          alignSelf="center"
+          {...other}
+        >
+          {title}
+        </MagnusButton>
+      );
 
     default:
       return (

@@ -1,33 +1,52 @@
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 import React from "react";
-import { FlatList } from "react-native";
-import { useRecoilValue } from "recoil";
+import { FlatList, TouchableOpacity } from "react-native";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import { Background, Div, Text } from "../common";
-import { rFoodItems } from "../store";
+import { RootStackParamList } from "../navigation/RootNavigator";
+import { rFoodItems, rSelectedItem, FoodItem } from "../store";
 
-const Item = ({ item: { name } }) => {
+const Item: React.FC<{
+  item: FoodItem;
+}> = ({ item: { name, id } }) => {
+  const { goBack } = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const selectItem = useSetRecoilState(rSelectedItem);
+  const pickItem = () => {
+    selectItem({
+      name,
+      id,
+    });
+    goBack();
+  };
+
   return (
-    <Div
-      bg={false ? "blue600" : "blue100"}
-      px="xl"
-      py="md"
-      mr="md"
-      rounded="circle"
-    >
-      <Text color={false ? "white" : "gray800"}>{name}</Text>
-    </Div>
+    <TouchableOpacity onPress={pickItem}>
+      <Div bg="blue100" px="xl" py="md" mr="md" mt="md" rounded="circle">
+        <Text color="gray800">{name}</Text>
+      </Div>
+    </TouchableOpacity>
   );
 };
 
-const FoodItems = () => {
+interface Props {}
+
+const FoodItems: React.FC<Props> = () => {
   const foodItems = useRecoilValue(rFoodItems);
   return (
-    <Background>
+    <Background px="xl" pt="md">
       <FlatList
+        contentContainerStyle={{
+          justifyContent: "flex-start",
+          flex: 1,
+          flexDirection: "row",
+          flexWrap: "wrap",
+        }}
         data={foodItems}
         keyExtractor={(item, index) => item.id}
         renderItem={({ item }) => <Item item={item} />}
-        ListFooterComponent={<Text>Add New Food Item</Text>}
+        ListEmptyComponent={<Text>Add New Food Item</Text>}
       />
     </Background>
   );
