@@ -2,10 +2,10 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import React from "react";
 import { useRecoilState } from "recoil";
 
+import { rFoodItems } from "../atoms";
 import { Background, Input, Button } from "../common";
 import { useTheme } from "../hooks";
 import { RootStackParamList } from "../navigation/RootNavigator";
-import { rFoodItems } from "../store";
 
 export const createRandomId = (): string => {
   const chars =

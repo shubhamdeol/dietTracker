@@ -1,29 +1,48 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import dayjs from "dayjs";
 import React, { useState } from "react";
 import { Platform, ScrollView } from "react-native";
 import { useRecoilState, useRecoilValue } from "recoil";
 
+import { rConsumeHistory, rSelectedItem } from "../atoms";
 import { Background, Button, Div, Icon, Text, Radio } from "../common";
 import { RatingType, RATING_KINDS } from "../constants";
 import { useTheme } from "../hooks";
 import { RootStackParamList } from "../navigation/RootNavigator";
-import { rConsumeHistory, rSelectedItem } from "../store";
 import { createRandomId } from "./AddItem";
 
 type Props = {
-  navigation: StackNavigationProp<RootStackParamList>;
+  navigation: StackNavigationProp<RootStackParamList, "RecordEntry">;
+  route: RouteProp<RootStackParamList, "RecordEntry">;
 };
 
-const RecordEntry: React.FC<Props> = ({ navigation: { navigate, goBack } }) => {
+const RecordEntry: React.FC<Props> = ({
+  navigation: { navigate, goBack, setOptions },
+  route: { params },
+}) => {
   const { colors } = useTheme();
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState<"date" | "time">("date");
   const [show, setShow] = useState(false);
   const [itemRating, setItemRating] = useState<RatingType | null>(null);
-  const selectedItem = useRecoilValue(rSelectedItem);
+  const [selectedItem, setItem] = useRecoilState(rSelectedItem);
   const [consumeHistory, setConsumeHistory] = useRecoilState(rConsumeHistory);
+
+  React.useEffect(() => {
+    if (params?.item) {
+      setOptions({
+        title: params.editItemName
+          ? `${params.editItemName}'s record`
+          : "Update Record",
+      });
+      const { date, rating, item } = params.item;
+      setDate(new Date(date));
+      setItemRating(rating);
+      setItem(item);
+    }
+  }, [params, setItem]);
 
   const onChange = (_: any, selectedDate?: Date): void => {
     const currentDate = selectedDate || date;
@@ -59,6 +78,22 @@ const RecordEntry: React.FC<Props> = ({ navigation: { navigate, goBack } }) => {
     }
   };
 
+  const updateEntry = () => {
+    const updatedConsumeHistory = consumeHistory.map((each) => {
+      if (each.id === params?.item.id && date && selectedItem && itemRating) {
+        return {
+          ...each,
+          date,
+          item: selectedItem,
+          rating: itemRating,
+        };
+      }
+      return each;
+    });
+    setConsumeHistory(updatedConsumeHistory);
+    goBack();
+  };
+
   return (
     <Background px="xl">
       <ScrollView>
@@ -90,21 +125,24 @@ const RecordEntry: React.FC<Props> = ({ navigation: { navigate, goBack } }) => {
             onChange={onChange}
           />
         )}
+        {!params?.editItemName && (
+          <Button
+            suffix={
+              !selectedItem?.name ? (
+                <Icon name="down" pl="lg" color={colors.primary} />
+              ) : null
+            }
+            title={selectedItem?.name || "Choose Item"}
+            disabled={!!params?.editItemName}
+            block
+            mode="outlined"
+            rounded="md"
+            h={44}
+            mt="xl"
+            onPress={() => navigate("FoodItems")}
+          />
+        )}
 
-        <Button
-          suffix={
-            !selectedItem?.name ? (
-              <Icon name="down" pl="lg" color={colors.primary} />
-            ) : null
-          }
-          title={selectedItem?.name || "Choose Item"}
-          block
-          mode="outlined"
-          rounded="md"
-          h={44}
-          mt="xl"
-          onPress={() => navigate("FoodItems")}
-        />
         <Text pt="xl" pb="md" fontSize="lg">
           Rate (mark feeling level)
         </Text>
@@ -118,14 +156,20 @@ const RecordEntry: React.FC<Props> = ({ navigation: { navigate, goBack } }) => {
               <Radio value={item} key={item.value}>
                 {({ checked }) => (
                   <Div
-                    bg={checked ? "blue600" : "blue100"}
+                    bg={
+                      itemRating?.value === item.value ? "blue600" : "blue100"
+                    }
                     px="xl"
                     py="md"
                     mr="md"
                     mb="lg"
                     rounded="circle"
                   >
-                    <Text color={checked ? "white" : "gray800"}>
+                    <Text
+                      color={
+                        itemRating?.value === item.value ? "white" : "gray800"
+                      }
+                    >
                       {item.label}
                     </Text>
                   </Div>
@@ -137,10 +181,10 @@ const RecordEntry: React.FC<Props> = ({ navigation: { navigate, goBack } }) => {
       </ScrollView>
       <Button
         disabled={!selectedItem || !itemRating}
-        title="Submit"
+        title={params?.item ? "Update" : "Submit"}
         mb="3xl"
         block
-        onPress={addEntry}
+        onPress={params?.item ? updateEntry : addEntry}
       />
     </Background>
   );

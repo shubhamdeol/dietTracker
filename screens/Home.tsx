@@ -1,12 +1,13 @@
 import { StackNavigationProp } from "@react-navigation/stack";
 import React from "react";
-import { FlatList, StatusBar } from "react-native";
+import { FlatList, StatusBar, TouchableOpacity } from "react-native";
 import { useRecoilValue } from "recoil";
 
-import { Background, Button, Text, Div, Icon } from "../common";
+import { rDietResults } from "../atoms/dynamic";
+import { Background, Button, Text, Div, Icon, ShowRating } from "../common";
+import { RatingType } from "../constants";
 import { useTheme } from "../hooks";
 import { RootStackParamList } from "../navigation/RootNavigator";
-import { rDietResults } from "../store";
 
 type Props = {
   navigation: StackNavigationProp<RootStackParamList>;
@@ -26,31 +27,46 @@ const Home: React.FC<Props> = ({ navigation: { navigate } }) => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => {
           return (
-            <Div
-              shadow="lg"
-              bg="white"
-              mx="lg"
-              mb="md"
-              py="md"
-              px={18}
-              rounded="md"
+            <TouchableOpacity
+              onPress={() =>
+                navigate("FoodHistory", {
+                  itemId: item.id,
+                })
+              }
             >
-              <Div row justifyContent="space-between">
-                <Text fontSize="2xl">{item.name}</Text>
-                <Div row>
-                  <Text pr="xl">{item.rating.label}</Text>
-                  <Text color={colors.primary} fontSize="xs">
+              <Div
+                shadow="lg"
+                bg="white"
+                mx="lg"
+                mb="md"
+                py="md"
+                px={18}
+                rounded="md"
+              >
+                <Div row justifyContent="space-between">
+                  <Div>
+                    <Text fontSize="2xl">{item.name}</Text>
+                    <Text mt="md" fontSize="xl">
+                      Average Rating
+                    </Text>
+                  </Div>
+                  <ShowRating rating={item.rating} />
+                </Div>
+                <Div row alignSelf="center" pt="md">
+                  <Text color={colors.primary} mr="xs">
                     History
                   </Text>
-                  <Icon name="right" color={colors.primary} pl="xs" />
+                  <Icon color={colors.primary} name="right" />
                 </Div>
               </Div>
-            </Div>
+            </TouchableOpacity>
           );
         }}
       />
       <Button
-        title="Record Entry"
+        mx="xl"
+        title="Record Item"
+        block
         px="2xl"
         mb="3xl"
         onPress={() => navigate("RecordEntry")}

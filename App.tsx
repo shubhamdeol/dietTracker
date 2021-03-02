@@ -5,8 +5,8 @@ import { SafeAreaView } from "react-native";
 import { ThemeProvider } from "react-native-magnus";
 import { RecoilRoot } from "recoil";
 
+import Persister from "./atoms/Perister";
 import { Navigation } from "./navigation";
-import Persister from "./store/Perister";
 
 export const persistInfo: any = {};
 

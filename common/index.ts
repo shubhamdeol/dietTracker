@@ -4,6 +4,7 @@ import Background from "./Background";
 import Button from "./Button";
 import Div from "./Div";
 import Icon from "./Icon";
+import ShowRating from "./ShowRating";
 import Text from "./Text";
 
 export {
@@ -16,4 +17,5 @@ export {
   Input,
   SnackbarRef,
   Snackbar,
+  ShowRating,
 };

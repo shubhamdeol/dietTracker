@@ -4,9 +4,9 @@ import React from "react";
 import { FlatList, TouchableOpacity } from "react-native";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
+import { rFoodItems, rSelectedItem, FoodItem } from "../atoms";
 import { Background, Div, Text } from "../common";
 import { RootStackParamList } from "../navigation/RootNavigator";
-import { rFoodItems, rSelectedItem, FoodItem } from "../store";
 
 const Item: React.FC<{
   item: FoodItem;

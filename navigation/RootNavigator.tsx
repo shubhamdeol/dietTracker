@@ -3,15 +3,26 @@ import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import { TouchableOpacity } from "react-native";
 
-import { Icon } from "../common";
+import { ConsumeItem } from "../atoms";
+import { Button, Icon } from "../common";
 import { useTheme } from "../hooks";
-import { Home, RecordEntry, FoodItems, AddItem } from "../screens";
+import { Home, RecordEntry, FoodItems, AddItem, FoodHistory } from "../screens";
 
 export type RootStackParamList = {
   Home: undefined;
-  RecordEntry: undefined;
+  RecordEntry:
+    | {
+        item: ConsumeItem;
+        editItemName?: string;
+      }
+    | undefined;
   FoodItems: undefined;
   AddItem: undefined;
+  FoodHistory:
+    | {
+        itemId: string;
+      }
+    | undefined;
 };
 
 const RootStack = createStackNavigator<RootStackParamList>();
@@ -22,11 +33,27 @@ const RootNavigator = () => {
     <NavigationContainer>
       <RootStack.Navigator
         screenOptions={{
-          headerShown: false,
           headerBackTitleVisible: false,
         }}
       >
-        <RootStack.Screen name="Home" component={Home} />
+        <RootStack.Screen
+          name="Home"
+          component={Home}
+          options={({ navigation: { navigate } }) => ({
+            title: "",
+            headerTitleAlign: "left",
+            headerRight: () => (
+              <Button
+                onPress={() => navigate("FoodHistory")}
+                title="View All History"
+                mode="text"
+                suffix={
+                  <Icon name="right" color={colors.primary} pl="md" mt={4} />
+                }
+              />
+            ),
+          })}
+        />
         <RootStack.Screen
           name="RecordEntry"
           component={RecordEntry}
@@ -59,6 +86,13 @@ const RootNavigator = () => {
           options={{
             headerShown: true,
             title: "Add New Item",
+          }}
+        />
+        <RootStack.Screen
+          name="FoodHistory"
+          component={FoodHistory}
+          options={{
+            headerShown: true,
           }}
         />
       </RootStack.Navigator>

@@ -1,12 +1,16 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { ReactNode, useEffect, useCallback } from "react";
-import { useSetRecoilState } from "recoil";
+import { ActivityIndicator } from "react-native";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 import { rConsumeHistory, rFoodItems } from ".";
 
 const Persister = ({ children }: { children: ReactNode }) => {
-  const setFoodItems = useSetRecoilState(rFoodItems);
+  const [loaded, setLoaded] = React.useState(false);
+  const [foodItems, setFoodItems] = useRecoilState(rFoodItems);
   const setConsumeHistory = useSetRecoilState(rConsumeHistory);
+
+  // console.warn(foodItems);
 
   const hydrateRecoil = useCallback(async () => {
     const value = await AsyncStorage.getItem(rFoodItems.key);
@@ -17,13 +21,14 @@ const Persister = ({ children }: { children: ReactNode }) => {
     if (value) {
       setFoodItems(JSON.parse(value));
     }
+    setLoaded(true);
   }, [setFoodItems, setConsumeHistory]);
 
   useEffect(() => {
     hydrateRecoil();
   }, [hydrateRecoil]);
 
-  return <>{children}</>;
+  return <>{loaded ? children : <ActivityIndicator />}</>;
 };
 
 export default Persister;
