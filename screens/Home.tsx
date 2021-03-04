@@ -1,11 +1,10 @@
 import { StackNavigationProp } from "@react-navigation/stack";
 import React from "react";
-import { FlatList, StatusBar, TouchableOpacity } from "react-native";
+import { FlatList, TouchableNativeFeedback } from "react-native";
 import { useRecoilValue } from "recoil";
 
 import { rDietResults } from "../atoms/dynamic";
 import { Background, Button, Text, Div, Icon, ShowRating } from "../common";
-import { RatingType } from "../constants";
 import { useTheme } from "../hooks";
 import { RootStackParamList } from "../navigation/RootNavigator";
 
@@ -18,16 +17,16 @@ const Home: React.FC<Props> = ({ navigation: { navigate } }) => {
   const { colors } = useTheme();
 
   return (
-    <Background pt={StatusBar.currentHeight}>
+    <Background>
       <FlatList
         contentContainerStyle={{
-          paddingVertical: 40,
+          paddingVertical: 20,
         }}
         data={dietResults}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => {
           return (
-            <TouchableOpacity
+            <TouchableNativeFeedback
               onPress={() =>
                 navigate("FoodHistory", {
                   itemId: item.id,
@@ -35,7 +34,7 @@ const Home: React.FC<Props> = ({ navigation: { navigate } }) => {
               }
             >
               <Div
-                shadow="lg"
+                shadow="sm"
                 bg="white"
                 mx="lg"
                 mb="md"
@@ -59,7 +58,7 @@ const Home: React.FC<Props> = ({ navigation: { navigate } }) => {
                   <Icon color={colors.primary} name="right" />
                 </Div>
               </Div>
-            </TouchableOpacity>
+            </TouchableNativeFeedback>
           );
         }}
       />

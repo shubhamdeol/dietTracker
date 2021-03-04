@@ -1,23 +1,23 @@
 import React from "react";
 
-import { Div, Text } from ".";
 import { RatingType } from "../constants";
-import { useTheme } from "../hooks";
+import Div from "./Div";
+import Text from "./Text";
 
-const getRatingColors = (rating: RatingType) => {
+export const getRatingColors = (rating: RatingType) => {
   switch (rating.value) {
     case 0:
-      return "red700";
+      return "#c53030";
     case 1:
-      return "red300";
+      return "#feb2b2";
     case 2:
-      return "yellow600";
+      return "#d69e2e";
     case 3:
-      return "purple500";
+      return "#ed64a6";
     case 4:
-      return "green500";
+      return "#48bb78";
     default:
-      break;
+      return "#48bb78";
   }
 };
 
@@ -29,7 +29,7 @@ const ShowRating: React.FC<{
     <Div alignItems="center" justifyContent="center" w={80}>
       <Div mb="sm" h={14} w={14} bg={ratingColor} alignSelf="center" />
       <Text lineHeight={24} textAlign="center" color="gray500">
-        {rating.label}
+        {rating?.label}
       </Text>
     </Div>
   );

@@ -1,4 +1,11 @@
-import { Radio, Input, Snackbar, SnackbarRef } from "react-native-magnus";
+import {
+  Radio,
+  Input,
+  Snackbar,
+  SnackbarRef,
+  Modal,
+  Button as MagnusButton,
+} from "react-native-magnus";
 
 import Background from "./Background";
 import Button from "./Button";
@@ -18,4 +25,6 @@ export {
   SnackbarRef,
   Snackbar,
   ShowRating,
+  Modal,
+  MagnusButton,
 };
