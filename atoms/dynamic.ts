@@ -45,8 +45,6 @@ export const rDietResults = selector({
 
     const dietResults = foodItems.reduce<DietItem[]>((acc, cv) => {
       const item = consumeHistory.find((consumedItem) => {
-        // console.warn(consumedItem, foodItems);
-
         if (consumedItem.item.id === cv.id) {
           return true;
         }

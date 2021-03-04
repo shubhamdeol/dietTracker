@@ -10,8 +10,6 @@ const Persister = ({ children }: { children: ReactNode }) => {
   const [foodItems, setFoodItems] = useRecoilState(rFoodItems);
   const setConsumeHistory = useSetRecoilState(rConsumeHistory);
 
-  // console.warn(foodItems);
-
   const hydrateRecoil = useCallback(async () => {
     const value = await AsyncStorage.getItem(rFoodItems.key);
     const consumeHistory = await AsyncStorage.getItem(rConsumeHistory.key);

@@ -197,7 +197,6 @@ const FoodHistory: React.FC<Props> = ({ route: { params }, navigation }) => {
               const result = await Print.printToFileAsync({
                 html: htmlString,
               });
-              console.warn(result.uri);
 
               await Sharing.shareAsync(result.uri);
             }}
@@ -236,7 +235,12 @@ const FoodHistory: React.FC<Props> = ({ route: { params }, navigation }) => {
                     {dayjs(item.date).format("DD/MM/YYYY, hh:mm:a")}
                   </Text>
                   {!params?.itemId && (
-                    <Text fontSize="2xl">{item.item.name}</Text>
+                    <Div>
+                      <Text fontSize="2xl">{item.item.name}</Text>
+                      <Text fontWeight="bold" color="gray500" fontSize="sm">
+                        {item.item.quantityType.type}
+                      </Text>
+                    </Div>
                   )}
                 </Div>
                 <ShowRating rating={item.rating} />

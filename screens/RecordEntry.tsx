@@ -42,7 +42,7 @@ const RecordEntry: React.FC<Props> = ({
       setItemRating(rating);
       setItem(item);
     }
-  }, [params, setItem]);
+  }, [params, setItem, setOptions]);
 
   const onChange = (_: any, selectedDate?: Date): void => {
     const currentDate = selectedDate || date;
@@ -150,7 +150,9 @@ const RecordEntry: React.FC<Props> = ({
           <Radio.Group
             row
             flexWrap="wrap"
-            onChange={(val) => setItemRating(val)}
+            onChange={(val) => {
+              setItemRating(val);
+            }}
           >
             {RATING_KINDS.map((item) => (
               <Radio value={item} key={item.value}>

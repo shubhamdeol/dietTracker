@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { atom, selector } from "recoil";
 
 import { RatingType } from "../constants";
+import { QuantityType } from "../screens/AddItem";
 
 // atoms are names with prefix "r" which stands for recoil
 // example: theme will be named to rTheme
@@ -25,6 +26,7 @@ export const rTheme = atom({
 export type FoodItem = {
   name: string;
   id: string;
+  quantityType: QuantityType;
 };
 
 export const rFoodItems = atom<FoodItem[]>({
@@ -39,7 +41,7 @@ export const rFoodItems = atom<FoodItem[]>({
   ],
 });
 
-export type SelectedItem = Pick<FoodItem, "id" | "name">;
+export type SelectedItem = Pick<FoodItem, "id" | "name" | "quantityType">;
 
 export const rSelectedItem = atom<SelectedItem | null>({
   key: "selectedItem",

@@ -10,13 +10,14 @@ import { RootStackParamList } from "../navigation/RootNavigator";
 
 const Item: React.FC<{
   item: FoodItem;
-}> = ({ item: { name, id } }) => {
+}> = ({ item: { name, id, quantityType } }) => {
   const { goBack } = useNavigation<StackNavigationProp<RootStackParamList>>();
   const selectItem = useSetRecoilState(rSelectedItem);
   const pickItem = () => {
     selectItem({
       name,
       id,
+      quantityType,
     });
     goBack();
   };

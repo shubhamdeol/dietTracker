@@ -13,7 +13,7 @@ export const getRatingColors = (rating: RatingType) => {
     case 2:
       return "#d69e2e";
     case 3:
-      return "#ed64a6";
+      return "#c6f6d5";
     case 4:
       return "#48bb78";
     default:
