@@ -23,20 +23,34 @@ interface Props {
 
 const quantityTypes = [
   {
-    type: "Plate",
     id: 1,
+    type: "Plate",
+    possibleQuantities: [1, 2],
+    defaultQuantity: 1,
   },
   {
-    type: "Bowl",
     id: 2,
+    type: "Bowl",
+    possibleQuantities: [1, 2],
+    defaultQuantity: 1,
   },
   {
-    type: "Number",
     id: 3,
+    type: "Number",
+    possibleQuantities: [1, 2, 3, 4],
+    defaultQuantity: 1,
   },
   {
-    type: "Gram",
     id: 4,
+    type: "Gram",
+    possibleQuantities: [10, 20, 50, 100, 200, 400],
+    defaultQuantity: 10,
+  },
+  {
+    id: 5,
+    type: "ml",
+    possibleQuantities: [10, 20, 50, 100, 200, 400, 500],
+    defaultQuantity: 100,
   },
 ] as const;
 

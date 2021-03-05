@@ -4,7 +4,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import dayjs from "dayjs";
 import React, { useState } from "react";
 import { Platform, ScrollView } from "react-native";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 
 import { rConsumeHistory, rSelectedItem } from "../atoms";
 import { Background, Button, Div, Icon, Text, Radio } from "../common";
@@ -141,6 +141,52 @@ const RecordEntry: React.FC<Props> = ({
             mt="xl"
             onPress={() => navigate("FoodItems")}
           />
+        )}
+
+        {!!selectedItem && (
+          <Div>
+            <Text pt="xl" pb="md" fontSize="lg">
+              Quantity
+            </Text>
+            <Div m="lg">
+              <Radio.Group
+                row
+                flexWrap="wrap"
+                onChange={(val) => {
+                  setItemRating(val);
+                }}
+              >
+                {selectedItem.quantityType.possibleQuantities.map((item) => (
+                  <Radio value={item} key={item}>
+                    {({ checked }) => (
+                      <Div
+                        bg={
+                          selectedItem.quantityType.defaultQuantity === item
+                            ? "blue600"
+                            : "blue100"
+                        }
+                        px="xl"
+                        py="md"
+                        mr="md"
+                        mb="lg"
+                        rounded="circle"
+                      >
+                        <Text
+                          color={
+                            selectedItem.quantityType.defaultQuantity === item
+                              ? "white"
+                              : "gray800"
+                          }
+                        >
+                          {item}
+                        </Text>
+                      </Div>
+                    )}
+                  </Radio>
+                ))}
+              </Radio.Group>
+            </Div>
+          </Div>
         )}
 
         <Text pt="xl" pb="md" fontSize="lg">
