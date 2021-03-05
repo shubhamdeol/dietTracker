@@ -237,11 +237,11 @@ const FoodHistory: React.FC<Props> = ({ route: { params }, navigation }) => {
                   {!params?.itemId && (
                     <Div>
                       <Text fontSize="2xl">{item.item.name}</Text>
-                      <Text fontWeight="bold" color="gray500" fontSize="sm">
-                        {item.item.quantityType.type}
-                      </Text>
                     </Div>
                   )}
+                  <Text fontWeight="bold" color="gray500" fontSize="sm">
+                    {item.item.quantityType.type}
+                  </Text>
                 </Div>
                 <ShowRating rating={item.rating} />
               </Div>

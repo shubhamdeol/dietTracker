@@ -45,6 +45,9 @@ const Home: React.FC<Props> = ({ navigation: { navigate } }) => {
                 <Div row justifyContent="space-between">
                   <Div>
                     <Text fontSize="2xl">{item.name}</Text>
+                    <Text fontWeight="bold" color="gray500" fontSize="sm">
+                      {item.quantityType.type}
+                    </Text>
                     <Text mt="md" fontSize="xl">
                       Average Rating
                     </Text>

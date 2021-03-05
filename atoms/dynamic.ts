@@ -3,7 +3,7 @@ import { selector } from "recoil";
 import { FoodItem, rConsumeHistory, rFoodItems } from ".";
 import { RatingType } from "../constants";
 
-type DietItem = Pick<FoodItem, "id" | "name"> & {
+type DietItem = Pick<FoodItem, "id" | "name" | "quantityType"> & {
   rating: RatingType;
 };
 
