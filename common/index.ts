@@ -5,6 +5,7 @@ import {
   SnackbarRef,
   Modal,
   Button as MagnusButton,
+  Image,
 } from "react-native-magnus";
 
 import Background from "./Background";
@@ -27,4 +28,5 @@ export {
   ShowRating,
   Modal,
   MagnusButton,
+  Image,
 };

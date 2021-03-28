@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 
 import { ConsumeItem } from "../atoms";
 import { getRatingColors } from "../common/ShowRating";
+import { getDescriptiveQuantity } from "./index";
 
 const cssStyleSheet = `
       <style type="text/css">
@@ -104,10 +105,17 @@ export const getHtmlReportString = (
 ) => {
   const html = `<!DOCTYPE html><head><title>Invoice</title>${cssStyleSheet}</head>`;
 
+  const isToday = selectedFilter === FilterNames.Today;
+
   const transactionsInfo = historyData.map((each) => {
     return `<tr>
-          <td>${dayjs(each.date).format("DD/MM/YYYY, hh:mm a")}</td>
+          <td>${
+            isToday
+              ? dayjs(each.date).format("hh:mm a")
+              : dayjs(each.date).format("DD/MM/YYYY, hh:mm a")
+          }</td>
           <td>${each.item.name}</td>
+          <td>${getDescriptiveQuantity(each.item, each.quantity)}</td>
           <td style="color: ${getRatingColors(each.rating)}">
             ${each.rating.label}
           </td>
@@ -122,8 +130,9 @@ export const getHtmlReportString = (
 <table>
 <thead>
   <tr>
-    <th>DATE</th>
+    <th>${isToday ? "Time" : "Date & Time"}</th>
     <th>Food Item Name</th>
+    <th>Quantity</th>
     <th>Rating(Feeling level)</th>
   </tr>
 </thead>

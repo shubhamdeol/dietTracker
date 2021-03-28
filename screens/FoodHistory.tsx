@@ -26,7 +26,7 @@ import {
 } from "../common";
 import { useTheme } from "../hooks";
 import { RootStackParamList } from "../navigation/RootNavigator";
-import { getHtmlReportString } from "../utils";
+import { getDescriptiveQuantity, getHtmlReportString } from "../utils";
 
 interface Props {
   route: RouteProp<RootStackParamList, "FoodHistory">;
@@ -184,7 +184,7 @@ const FoodHistory: React.FC<Props> = ({ route: { params }, navigation }) => {
             focusBorderColor="blue700"
           />
           <Button
-            title="Send"
+            title="Save"
             block
             mt="xl"
             py="xl"
@@ -240,7 +240,10 @@ const FoodHistory: React.FC<Props> = ({ route: { params }, navigation }) => {
                     </Div>
                   )}
                   <Text fontWeight="bold" color="gray500" fontSize="sm">
-                    {item.item.quantityType.type}
+                    {`Quantity: ${getDescriptiveQuantity(
+                      item.item,
+                      item.quantity
+                    )}`}
                   </Text>
                 </Div>
                 <ShowRating rating={item.rating} />
@@ -250,7 +253,7 @@ const FoodHistory: React.FC<Props> = ({ route: { params }, navigation }) => {
         )}
       />
       <Button
-        title="Send Report to Nutritionist"
+        title="Generate Report"
         mb="xl"
         onPress={() => setModalVisibility(true)}
       />

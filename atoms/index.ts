@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { atom, selector } from "recoil";
+import { atom } from "recoil";
 
 import { RatingType } from "../constants";
 import { QuantityType } from "../screens/AddItem";
@@ -53,6 +53,7 @@ export type ConsumeItem = {
   rating: RatingType;
   item: SelectedItem;
   id: string;
+  quantity: number;
 };
 
 export const rConsumeHistory = atom<ConsumeItem[]>({

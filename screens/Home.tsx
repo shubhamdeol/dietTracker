@@ -3,8 +3,17 @@ import React from "react";
 import { FlatList, TouchableNativeFeedback } from "react-native";
 import { useRecoilValue } from "recoil";
 
+import NoRecords from "../assets/noRecords.png";
 import { rDietResults } from "../atoms/dynamic";
-import { Background, Button, Text, Div, Icon, ShowRating } from "../common";
+import {
+  Background,
+  Button,
+  Text,
+  Div,
+  Icon,
+  ShowRating,
+  Image,
+} from "../common";
 import { useTheme } from "../hooks";
 import { RootStackParamList } from "../navigation/RootNavigator";
 
@@ -22,6 +31,20 @@ const Home: React.FC<Props> = ({ navigation: { navigate } }) => {
         contentContainerStyle={{
           paddingVertical: 20,
         }}
+        ListEmptyComponent={
+          <Div flex={1} justifyContent="center">
+            <Image
+              h={200}
+              w={200}
+              alignSelf="center"
+              m={10}
+              source={NoRecords}
+            />
+            <Text fontSize="lg" textAlign="center" mt="3xl">
+              Track, Plan and Manage your Diet
+            </Text>
+          </Div>
+        }
         data={dietResults}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => {
@@ -46,7 +69,7 @@ const Home: React.FC<Props> = ({ navigation: { navigate } }) => {
                   <Div>
                     <Text fontSize="2xl">{item.name}</Text>
                     <Text fontWeight="bold" color="gray500" fontSize="sm">
-                      {item.quantityType.type}
+                      Measured In: {item.quantityType.type}
                     </Text>
                     <Text mt="md" fontSize="xl">
                       Average Rating

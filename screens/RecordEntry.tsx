@@ -11,6 +11,7 @@ import { Background, Button, Div, Icon, Text, Radio } from "../common";
 import { RatingType, RATING_KINDS } from "../constants";
 import { useTheme } from "../hooks";
 import { RootStackParamList } from "../navigation/RootNavigator";
+import { getDescriptiveQuantity } from "../utils";
 import { createRandomId } from "./AddItem";
 
 type Props = {
@@ -26,8 +27,13 @@ const RecordEntry: React.FC<Props> = ({
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState<"date" | "time">("date");
   const [show, setShow] = useState(false);
-  const [itemRating, setItemRating] = useState<RatingType | null>(null);
+  const [itemRating, setItemRating] = useState<RatingType | null>(
+    RATING_KINDS[3]
+  );
   const [selectedItem, setItem] = useRecoilState(rSelectedItem);
+  const [quantity, setQuantity] = useState(
+    selectedItem?.quantityType.defaultQuantity || 0
+  );
   const [consumeHistory, setConsumeHistory] = useRecoilState(rConsumeHistory);
 
   React.useEffect(() => {
@@ -37,12 +43,19 @@ const RecordEntry: React.FC<Props> = ({
           ? `${params.editItemName}'s record`
           : "Update Record",
       });
-      const { date, rating, item } = params.item;
+      const { date, rating, item, quantity } = params.item;
       setDate(new Date(date));
       setItemRating(rating);
       setItem(item);
+      setQuantity(quantity);
     }
   }, [params, setItem, setOptions]);
+
+  const cleanUp = () => {
+    setQuantity(0);
+    setItem(null);
+    setItemRating(null);
+  };
 
   const onChange = (_: any, selectedDate?: Date): void => {
     const currentDate = selectedDate || date;
@@ -71,9 +84,11 @@ const RecordEntry: React.FC<Props> = ({
           item: selectedItem,
           rating: itemRating,
           id: createRandomId(),
+          quantity,
         },
         ...consumeHistory,
       ]);
+      cleanUp();
       goBack();
     }
   };
@@ -86,11 +101,13 @@ const RecordEntry: React.FC<Props> = ({
           date,
           item: selectedItem,
           rating: itemRating,
+          quantity,
         };
       }
       return each;
     });
     setConsumeHistory(updatedConsumeHistory);
+    cleanUp();
     goBack();
   };
 
@@ -153,37 +170,33 @@ const RecordEntry: React.FC<Props> = ({
                 row
                 flexWrap="wrap"
                 onChange={(val) => {
-                  setItemRating(val);
+                  setQuantity(val);
                 }}
               >
-                {selectedItem.quantityType.possibleQuantities.map((item) => (
-                  <Radio value={item} key={item}>
-                    {({ checked }) => (
-                      <Div
-                        bg={
-                          selectedItem.quantityType.defaultQuantity === item
-                            ? "blue600"
-                            : "blue100"
-                        }
-                        px="xl"
-                        py="md"
-                        mr="md"
-                        mb="lg"
-                        rounded="circle"
-                      >
-                        <Text
-                          color={
-                            selectedItem.quantityType.defaultQuantity === item
-                              ? "white"
-                              : "gray800"
-                          }
-                        >
-                          {item}
-                        </Text>
-                      </Div>
-                    )}
-                  </Radio>
-                ))}
+                {selectedItem.quantityType.possibleQuantities.map(
+                  (item: any) => {
+                    return (
+                      <Radio value={item} key={item}>
+                        {({ checked }) => (
+                          <Div
+                            bg={quantity === item ? "blue600" : "blue100"}
+                            px="xl"
+                            py="md"
+                            mr="md"
+                            mb="lg"
+                            rounded="circle"
+                          >
+                            <Text
+                              color={quantity === item ? "white" : "gray800"}
+                            >
+                              {getDescriptiveQuantity(selectedItem, item)}
+                            </Text>
+                          </Div>
+                        )}
+                      </Radio>
+                    );
+                  }
+                )}
               </Radio.Group>
             </Div>
           </Div>

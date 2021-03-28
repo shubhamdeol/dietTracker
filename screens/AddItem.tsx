@@ -52,6 +52,18 @@ const quantityTypes = [
     possibleQuantities: [10, 20, 50, 100, 200, 400, 500],
     defaultQuantity: 100,
   },
+  {
+    id: 6,
+    type: "gram",
+    possibleQuantities: [10, 20, 50, 100, 200, 400, 500],
+    defaultQuantity: 100,
+  },
+  {
+    id: 7,
+    type: "teaspoon",
+    possibleQuantities: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    defaultQuantity: 1,
+  },
 ] as const;
 
 type ElementType<
