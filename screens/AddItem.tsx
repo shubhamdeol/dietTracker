@@ -104,6 +104,7 @@ const AddItem: React.FC<Props> = ({ navigation: { goBack } }) => {
     <Background p="xl">
       <Input
         placeholder="Ex: Rice with curd"
+        maxLength={50}
         autoFocus
         focusBorderColor={colors.secondary}
         onChangeText={(text) => setItemName(text)}
@@ -145,7 +146,6 @@ const AddItem: React.FC<Props> = ({ navigation: { goBack } }) => {
           </Div>
         )}
       </Div>
-
       <Button
         disabled={!itemName.trim() || !quantityType?.type}
         title="Add Item"

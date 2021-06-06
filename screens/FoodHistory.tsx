@@ -40,7 +40,7 @@ export enum FilterNames {
   Custom = "Custom",
 }
 
-const filters = [FilterNames.Today, FilterNames.All, FilterNames.Custom];
+const filters = [FilterNames.Today, FilterNames.All];
 
 const getFilterResults = (
   consumeHistory: ConsumeItem[],
@@ -94,32 +94,9 @@ const FoodHistory: React.FC<Props> = ({ route: { params }, navigation }) => {
     }
   }, [historyData, selectedFilter]);
 
-  const onPressDeleteAll = () => {
-    Alert.alert(
-      "Are you sure?",
-      "All items will get deleted. This can not be undone",
-      [
-        {
-          text: "Cancel",
-          style: "cancel",
-        },
-        {
-          text: "Yes, Delete",
-          style: "destructive",
-          onPress: () => alert("wait for next update"),
-        },
-      ]
-    );
-  };
-
   React.useEffect(() => {
     navigation.setOptions({
-      title: params?.itemId
-        ? `${historyData[0].item.name}'s history`
-        : "All History",
-      headerRight: () => (
-        <Button mode="text" title="Delete All" onPress={onPressDeleteAll} />
-      ),
+      title: params?.itemId ? "Item history" : "All History",
     });
   }, [navigation, historyData, params]);
 
@@ -128,7 +105,7 @@ const FoodHistory: React.FC<Props> = ({ route: { params }, navigation }) => {
   const { colors } = useTheme();
   return (
     <Background>
-      {!params?.itemId && (
+      {!params?.itemId ? (
         <Div
           row
           alignSelf="center"
@@ -149,6 +126,10 @@ const FoodHistory: React.FC<Props> = ({ route: { params }, navigation }) => {
             />
           ))}
         </Div>
+      ) : (
+        <Text py="lg" px="xl" fontFamily="RobotoMedium">
+          {`${historyData[0].item.name}'s diet History`}
+        </Text>
       )}
 
       <Modal
@@ -218,6 +199,7 @@ const FoodHistory: React.FC<Props> = ({ route: { params }, navigation }) => {
                   params?.itemId && historyData[0].item.name
                     ? historyData[0].item.name
                     : undefined,
+                isLastItem: Boolean(historyData.length),
               });
             }}
           >
@@ -230,22 +212,29 @@ const FoodHistory: React.FC<Props> = ({ route: { params }, navigation }) => {
               px={18}
               rounded="md"
             >
-              <Div row justifyContent="space-between">
+              <Div flex={1} row justifyContent="space-between">
                 <Div>
                   <Text fontSize="md" lineHeight={24} color={colors.caption}>
                     {dayjs(item.date).format("DD/MM/YYYY, hh:mm:a")}
                   </Text>
                   {!params?.itemId && (
-                    <Div>
-                      <Text fontSize="2xl">{item.item.name}</Text>
-                    </Div>
+                    <Text
+                      w="90%"
+                      numberOfLines={1}
+                      adjustsFontSizeToFit
+                      fontSize="2xl"
+                    >
+                      {item.item.name}
+                    </Text>
                   )}
-                  <Text fontWeight="bold" color="gray500" fontSize="sm">
-                    {`Quantity: ${getDescriptiveQuantity(
-                      item.item,
-                      item.quantity
-                    )}`}
-                  </Text>
+                  {Boolean(item.quantity) && (
+                    <Text fontWeight="bold" color="gray500" fontSize="sm">
+                      {`Quantity: ${getDescriptiveQuantity(
+                        item.item,
+                        item.quantity
+                      )}`}
+                    </Text>
+                  )}
                 </Div>
                 <ShowRating rating={item.rating} />
               </Div>

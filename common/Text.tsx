@@ -5,8 +5,8 @@ interface Props extends TextProps {
   fontFamily?: "RobotoRegular" | "RobotoMedium" | "RobotoBold";
 }
 
-const Text: React.FC<Props> = ({ ...props }) => {
-  return <MgText {...props} fontFamily="RobotoRegular" />;
+const Text: React.FC<Props> = ({ fontFamily = "RobotoRegular", ...props }) => {
+  return <MgText fontFamily={fontFamily} {...props} />;
 };
 
 export default Text;

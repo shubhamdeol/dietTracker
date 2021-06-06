@@ -8,6 +8,7 @@ import {
   Image,
 } from "react-native-magnus";
 
+import AnimateScale from "./AnimateScale";
 import Background from "./Background";
 import Button from "./Button";
 import Div from "./Div";
@@ -29,4 +30,5 @@ export {
   Modal,
   MagnusButton,
   Image,
+  AnimateScale,
 };

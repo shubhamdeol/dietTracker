@@ -1,12 +1,18 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
-import { TouchableOpacity } from "react-native";
 
 import { ConsumeItem } from "../atoms";
 import { Button, Icon } from "../common";
 import { useTheme } from "../hooks";
-import { Home, RecordEntry, FoodItems, AddItem, FoodHistory } from "../screens";
+import {
+  Home,
+  RecordEntry,
+  FoodItems,
+  AddItem,
+  FoodHistory,
+  FoodItemsOptions,
+} from "../screens";
 
 export type RootStackParamList = {
   Home: undefined;
@@ -14,6 +20,7 @@ export type RootStackParamList = {
     | {
         item: ConsumeItem;
         editItemName?: string;
+        isLastItem: boolean;
       }
     | undefined;
   FoodItems: undefined;
@@ -45,7 +52,7 @@ const RootNavigator = () => {
             headerRight: () => (
               <Button
                 onPress={() => navigate("FoodHistory")}
-                title="View All History"
+                title="Diet History"
                 mode="text"
                 suffix={
                   <Icon name="right" color={colors.primary} pl="md" mt={4} />
@@ -65,20 +72,7 @@ const RootNavigator = () => {
         <RootStack.Screen
           name="FoodItems"
           component={FoodItems}
-          options={({ navigation: { navigate } }) => ({
-            headerShown: true,
-            title: "Food Items",
-            headerRight: () => (
-              <TouchableOpacity onPress={() => navigate("AddItem")}>
-                <Icon
-                  name="plus"
-                  color={colors.primary}
-                  pr="lg"
-                  fontSize="4xl"
-                />
-              </TouchableOpacity>
-            ),
-          })}
+          options={FoodItemsOptions}
         />
         <RootStack.Screen
           name="AddItem"

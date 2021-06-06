@@ -3,7 +3,7 @@ import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import dayjs from "dayjs";
 import React, { useState } from "react";
-import { Platform, ScrollView } from "react-native";
+import { Platform, ScrollView, Alert, Pressable } from "react-native";
 import { useRecoilState } from "recoil";
 
 import { rConsumeHistory, rSelectedItem } from "../atoms";
@@ -20,7 +20,7 @@ type Props = {
 };
 
 const RecordEntry: React.FC<Props> = ({
-  navigation: { navigate, goBack, setOptions },
+  navigation: { navigate, goBack, setOptions, popToTop },
   route: { params },
 }) => {
   const { colors } = useTheme();
@@ -36,12 +36,52 @@ const RecordEntry: React.FC<Props> = ({
   );
   const [consumeHistory, setConsumeHistory] = useRecoilState(rConsumeHistory);
 
+  const onPressDelete = React.useCallback(() => {
+    Alert.alert(
+      "Are you sure?",
+      "This record will be deleted from your diet.",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Yes, Delete",
+          style: "destructive",
+          onPress: () => {
+            const updatedHistory = consumeHistory.filter(
+              (item) => item.id !== params?.item.id
+            );
+            setConsumeHistory(updatedHistory);
+            if (params?.isLastItem) {
+              popToTop();
+            } else {
+              goBack();
+            }
+          },
+        },
+      ]
+    );
+  }, [consumeHistory, setConsumeHistory, params, goBack, popToTop]);
+
   React.useEffect(() => {
     if (params?.item) {
       setOptions({
         title: params.editItemName
           ? `${params.editItemName}'s record`
           : "Update Record",
+        headerRight: () => {
+          return (
+            <Pressable onPress={onPressDelete}>
+              <Icon
+                p="lg"
+                fontSize="2xl"
+                name="delete"
+                color={colors.primary}
+              />
+            </Pressable>
+          );
+        },
       });
       const { date, rating, item, quantity } = params.item;
       setDate(new Date(date));
@@ -49,7 +89,7 @@ const RecordEntry: React.FC<Props> = ({
       setItem(item);
       setQuantity(quantity);
     }
-  }, [params, setItem, setOptions]);
+  }, [params, setItem, setOptions, colors, onPressDelete]);
 
   const cleanUp = () => {
     setQuantity(0);
@@ -112,8 +152,12 @@ const RecordEntry: React.FC<Props> = ({
   };
 
   return (
-    <Background px="xl">
-      <ScrollView>
+    <Background>
+      <ScrollView
+        contentContainerStyle={{
+          paddingHorizontal: 16,
+        }}
+      >
         <Div row justifyContent="space-between" pt="xl">
           <Button
             prefix={<Icon name="calendar" pr="lg" color={colors.primary} />}
@@ -144,11 +188,7 @@ const RecordEntry: React.FC<Props> = ({
         )}
         {!params?.editItemName && (
           <Button
-            suffix={
-              !selectedItem?.name ? (
-                <Icon name="down" pl="lg" color={colors.primary} />
-              ) : null
-            }
+            suffix={<Icon name="down" pl="lg" color={colors.primary} />}
             title={selectedItem?.name || "Choose Item"}
             disabled={!!params?.editItemName}
             block
@@ -243,7 +283,8 @@ const RecordEntry: React.FC<Props> = ({
       <Button
         disabled={!selectedItem || !itemRating}
         title={params?.item ? "Update" : "Submit"}
-        mb="3xl"
+        mb="xl"
+        mx="xl"
         block
         onPress={params?.item ? updateEntry : addEntry}
       />
