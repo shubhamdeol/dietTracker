@@ -1,7 +1,4 @@
 import { FoodItem } from "../atoms";
-import { getHtmlReportString } from "./report";
-
-export { getHtmlReportString };
 
 export function convertNumberToWordsEN(value: number): string {
   value = Math.floor(value);

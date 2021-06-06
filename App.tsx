@@ -1,4 +1,5 @@
 import "react-native-gesture-handler";
+import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { SafeAreaView } from "react-native";
@@ -11,6 +12,16 @@ import { Navigation } from "./navigation";
 export const persistInfo: any = {};
 
 export default function App() {
+  const [loaded] = useFonts({
+    RobotoRegular: require("./assets/fonts/Roboto-Regular.ttf"),
+    RobotoMedium: require("./assets/fonts/Roboto-Medium.ttf"),
+    RobotoBold: require("./assets/fonts/Roboto-Bold.ttf"),
+  });
+
+  if (!loaded) {
+    return null;
+  }
+
   return (
     <ThemeProvider>
       <RecoilRoot>

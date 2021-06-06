@@ -6,6 +6,7 @@ import { useTheme } from "../hooks";
 interface Props extends ButtonProps {
   mode?: "primary" | "outlined" | "text";
   title: string;
+  fontFamily?: "RobotoRegular" | "RobotoMedium" | "RobotoBold";
 }
 
 const Button: React.FC<Props> = ({ title, mode, ...other }) => {
@@ -54,6 +55,8 @@ const Button: React.FC<Props> = ({ title, mode, ...other }) => {
           shadow={2}
           h={50}
           alignSelf="center"
+          fontFamily="RobotoMedium"
+          fontSize="xl"
           {...other}
         >
           {title}

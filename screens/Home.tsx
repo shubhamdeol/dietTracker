@@ -1,6 +1,6 @@
 import { StackNavigationProp } from "@react-navigation/stack";
 import React from "react";
-import { FlatList, TouchableNativeFeedback } from "react-native";
+import { FlatList, TouchableNativeFeedback, StyleSheet } from "react-native";
 import { useRecoilValue } from "recoil";
 
 import NoRecords from "../assets/noRecords.png";
@@ -17,6 +17,13 @@ import {
 import { useTheme } from "../hooks";
 import { RootStackParamList } from "../navigation/RootNavigator";
 
+const styles = StyleSheet.create({
+  contentContainerStyle: {
+    paddingVertical: 20,
+    flexGrow: 1,
+  },
+});
+
 type Props = {
   navigation: StackNavigationProp<RootStackParamList>;
 };
@@ -28,9 +35,7 @@ const Home: React.FC<Props> = ({ navigation: { navigate } }) => {
   return (
     <Background>
       <FlatList
-        contentContainerStyle={{
-          paddingVertical: 20,
-        }}
+        contentContainerStyle={styles.contentContainerStyle}
         ListEmptyComponent={
           <Div flex={1} justifyContent="center">
             <Image
@@ -40,7 +45,7 @@ const Home: React.FC<Props> = ({ navigation: { navigate } }) => {
               m={10}
               source={NoRecords}
             />
-            <Text fontSize="lg" textAlign="center" mt="3xl">
+            <Text fontSize="xl" textAlign="center" mt="3xl">
               Track, Plan and Manage your Diet
             </Text>
           </Div>

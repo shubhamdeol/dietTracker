@@ -26,7 +26,8 @@ import {
 } from "../common";
 import { useTheme } from "../hooks";
 import { RootStackParamList } from "../navigation/RootNavigator";
-import { getDescriptiveQuantity, getHtmlReportString } from "../utils";
+import { getDescriptiveQuantity } from "../utils";
+import { getHtmlReportString } from "../utils/report";
 
 interface Props {
   route: RouteProp<RootStackParamList, "FoodHistory">;
