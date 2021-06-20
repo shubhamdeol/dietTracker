@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "planMyDiet",
+    "name": "",
     "slug": "planMyDiet",
     "version": "1.0.2",
     "orientation": "portrait",
@@ -13,9 +13,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },

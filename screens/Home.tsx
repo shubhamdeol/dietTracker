@@ -52,8 +52,14 @@ const renderEmpty = () => {
   return (
     <Div flex={1} justifyContent="center">
       <Image h={250} w={250} alignSelf="center" m={10} source={NoRecords} />
-      <Text fontSize="xl" textAlign="center" mt="3xl">
-        Track, Plan and Manage your Diet
+      <Text
+        fontFamily="RobotoMedium"
+        fontSize="xl"
+        mx="xl"
+        textAlign="center"
+        mt="3xl"
+      >
+        Start Tracking What Food Item suits you best
       </Text>
     </Div>
   );
@@ -64,32 +70,37 @@ const Home: React.FC<Props> = ({ navigation, navigation: { navigate } }) => {
   const { colors } = useTheme();
   const hadDietResults = Boolean(dietResults.length);
 
-  React.useEffect(() => {
-    navigation.setOptions({
-      headerShown: hadDietResults,
-    });
-  }, [hadDietResults, navigation]);
-
   const renderHeader = React.useCallback(() => {
     if (hadDietResults) {
       return (
-        <Div pr="xl" mb="lg" mx="lg" row flex={1} justifyContent="flex-start">
-          <Text color={colors.caption} fontFamily="RobotoMedium">
-            Note:{" "}
-          </Text>
-          <Text
-            numberOfLines={1}
-            adjustsFontSizeToFit
-            color={colors.caption}
-            fontFamily="RobotoMedium"
-          >
-            This list contains average rating of items consumed
-          </Text>
+        <Div>
+          <Button
+            mt={16}
+            mb={8}
+            alignSelf="flex-end"
+            onPress={() => navigate("FoodHistory")}
+            title="Diet History"
+            mode="text"
+            suffix={<Icon name="right" color={colors.primary} pl="md" mt={4} />}
+          />
+          <Div pr="xl" mb="lg" mx="lg" row flex={1} justifyContent="flex-start">
+            <Text color={colors.caption} fontFamily="RobotoMedium">
+              Note:{" "}
+            </Text>
+            <Text
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              color={colors.caption}
+              fontFamily="RobotoMedium"
+            >
+              This list contains average rating of items consumed
+            </Text>
+          </Div>
         </Div>
       );
     }
     return null;
-  }, [hadDietResults, colors]);
+  }, [hadDietResults, colors, navigate]);
 
   return (
     <Background>
@@ -122,9 +133,6 @@ const Home: React.FC<Props> = ({ navigation, navigation: { navigate } }) => {
                     <Text fontSize="2xl">{item.name}</Text>
                     <Text fontWeight="bold" color="gray500" fontSize="sm">
                       Measured In: {item.quantityType.type}
-                    </Text>
-                    <Text mt="md" fontSize="xl">
-                      Average Rating
                     </Text>
                   </Div>
                   <ShowRating rating={item.rating} />

@@ -1,9 +1,13 @@
+import {
+  BottomTabNavigationOptions,
+  createBottomTabNavigator,
+} from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 
 import { ConsumeItem } from "../atoms";
-import { Button, Icon } from "../common";
+import { Icon } from "../common";
 import { useTheme } from "../hooks";
 import {
   Home,
@@ -12,6 +16,7 @@ import {
   AddItem,
   FoodHistory,
   FoodItemsOptions,
+  ProductList,
 } from "../screens";
 
 export type RootStackParamList = {
@@ -32,36 +37,114 @@ export type RootStackParamList = {
     | undefined;
 };
 
-const RootStack = createStackNavigator<RootStackParamList>();
+export type ProductsStackParamList = {
+  ProductList: undefined;
+  AddProduct:
+    | {
+        itemId: string;
+      }
+    | undefined;
+};
+
+const Tab = createBottomTabNavigator();
+
+const HomeStack = createStackNavigator<RootStackParamList>();
+
+const ProductsStack = createStackNavigator<ProductsStackParamList>();
+
+const Products = () => {
+  return (
+    <ProductsStack.Navigator>
+      <ProductsStack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="ProductList"
+        component={ProductList}
+      />
+      <ProductsStack.Screen
+        name="AddProduct"
+        component={AddItem}
+        options={{}}
+      />
+    </ProductsStack.Navigator>
+  );
+};
+
+const HomeTabs = () => {
+  const { colors } = useTheme();
+
+  return (
+    <Tab.Navigator
+      tabBarOptions={{
+        activeTintColor: colors.primary,
+        inactiveTintColor: "gray",
+      }}
+    >
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon
+              fontFamily="MaterialIcons"
+              name="home"
+              fontSize={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Products"
+        component={Products}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon
+              fontFamily="MaterialIcons"
+              name="format-list-numbered"
+              fontSize={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Help"
+        component={ProductList}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon
+              fontFamily="MaterialIcons"
+              name="help"
+              fontSize={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
 
 const RootNavigator = () => {
   const { colors } = useTheme();
+
   return (
     <NavigationContainer>
-      <RootStack.Navigator
+      <HomeStack.Navigator
         screenOptions={{
           headerBackTitleVisible: false,
         }}
       >
-        <RootStack.Screen
+        <HomeStack.Screen
           name="Home"
-          component={Home}
-          options={({ navigation: { navigate } }) => ({
-            title: "",
-            headerTitleAlign: "left",
-            headerRight: () => (
-              <Button
-                onPress={() => navigate("FoodHistory")}
-                title="Diet History"
-                mode="text"
-                suffix={
-                  <Icon name="right" color={colors.primary} pl="md" mt={4} />
-                }
-              />
-            ),
-          })}
+          component={HomeTabs}
+          options={{
+            headerShown: false,
+          }}
         />
-        <RootStack.Screen
+        <HomeStack.Screen
           name="RecordEntry"
           component={RecordEntry}
           options={{
@@ -69,12 +152,12 @@ const RootNavigator = () => {
             title: "Record Item",
           }}
         />
-        <RootStack.Screen
+        <HomeStack.Screen
           name="FoodItems"
           component={FoodItems}
           options={FoodItemsOptions}
         />
-        <RootStack.Screen
+        <HomeStack.Screen
           name="AddItem"
           component={AddItem}
           options={{
@@ -82,14 +165,14 @@ const RootNavigator = () => {
             title: "Add New Item",
           }}
         />
-        <RootStack.Screen
+        <HomeStack.Screen
           name="FoodHistory"
           component={FoodHistory}
           options={{
             headerShown: true,
           }}
         />
-      </RootStack.Navigator>
+      </HomeStack.Navigator>
     </NavigationContainer>
   );
 };

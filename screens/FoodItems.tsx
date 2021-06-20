@@ -58,7 +58,7 @@ const renderEmpty = () => (
       rounded="circle"
     />
     <Text fontFamily="RobotoMedium" fontSize="2xl">
-      Add Food your first food item
+      Add your first food item
     </Text>
   </Div>
 );
