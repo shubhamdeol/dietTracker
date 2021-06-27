@@ -1,7 +1,4 @@
-import {
-  BottomTabNavigationOptions,
-  createBottomTabNavigator,
-} from "@react-navigation/bottom-tabs";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
@@ -17,6 +14,7 @@ import {
   FoodHistory,
   FoodItemsOptions,
   ProductList,
+  Help,
 } from "../screens";
 
 export type RootStackParamList = {
@@ -111,7 +109,7 @@ const HomeTabs = () => {
       />
       <Tab.Screen
         name="Help"
-        component={ProductList}
+        component={Help}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon
@@ -128,8 +126,6 @@ const HomeTabs = () => {
 };
 
 const RootNavigator = () => {
-  const { colors } = useTheme();
-
   return (
     <NavigationContainer>
       <HomeStack.Navigator

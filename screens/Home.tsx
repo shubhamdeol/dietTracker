@@ -135,8 +135,8 @@ const Home: React.FC<Props> = ({ navigation, navigation: { navigate } }) => {
       <AnimateScale shouldAnimateInLoop={!hadDietResults}>
         <Button
           mx="xl"
-          title="Record Item"
-          block
+          title="Record Food"
+          alignSelf="flex-end"
           px="2xl"
           mb="xl"
           onPress={() => navigate("RecordEntry")}
