@@ -127,7 +127,7 @@ const FoodHistory: React.FC<Props> = ({ route: { params }, navigation }) => {
           ))}
         </Div>
       ) : (
-        <Text py="lg" px="xl" fontFamily="RobotoMedium">
+        <Text py="lg" px="xl" fontSize="xl" fontFamily="RobotoMedium">
           {`${historyData[0].item.name}'s diet History`}
         </Text>
       )}

@@ -20,32 +20,14 @@ import { RootStackParamList } from "../navigation/RootNavigator";
 
 const styles = StyleSheet.create({
   contentContainerStyle: {
-    paddingVertical: 20,
+    paddingTop: 10,
+    paddingBottom: 40,
     flexGrow: 1,
   },
 });
 
 type Props = {
   navigation: StackNavigationProp<RootStackParamList>;
-};
-
-const RenderHeader = () => {
-  const { colors } = useTheme();
-  return (
-    <Div pr="xl" mb="lg" mx="lg" row flex={1} justifyContent="flex-start">
-      <Text color={colors.caption} fontFamily="RobotoMedium">
-        Note:{" "}
-      </Text>
-      <Text
-        numberOfLines={1}
-        adjustsFontSizeToFit
-        color={colors.caption}
-        fontFamily="RobotoMedium"
-      >
-        This list contains average rating of items consumed
-      </Text>
-    </Div>
-  );
 };
 
 const renderEmpty = () => {
@@ -73,37 +55,37 @@ const Home: React.FC<Props> = ({ navigation, navigation: { navigate } }) => {
   const renderHeader = React.useCallback(() => {
     if (hadDietResults) {
       return (
-        <Div>
-          <Button
-            mt={16}
-            mb={8}
-            alignSelf="flex-end"
-            onPress={() => navigate("FoodHistory")}
-            title="Diet History"
-            mode="text"
-            suffix={<Icon name="right" color={colors.primary} pl="md" mt={4} />}
-          />
-          <Div pr="xl" mb="lg" mx="lg" row flex={1} justifyContent="flex-start">
-            <Text color={colors.caption} fontFamily="RobotoMedium">
-              Note:{" "}
-            </Text>
-            <Text
-              numberOfLines={1}
-              adjustsFontSizeToFit
-              color={colors.caption}
-              fontFamily="RobotoMedium"
-            >
-              This list contains average rating of items consumed
-            </Text>
-          </Div>
+        <Div pr="xl" mb="lg" mx="lg" row flex={1} justifyContent="flex-start">
+          <Text color={colors.caption} fontFamily="RobotoMedium">
+            Note:{" "}
+          </Text>
+          <Text
+            numberOfLines={1}
+            adjustsFontSizeToFit
+            color={colors.caption}
+            fontFamily="RobotoMedium"
+          >
+            This list contains average rating of items consumed
+          </Text>
         </Div>
       );
     }
     return null;
-  }, [hadDietResults, colors, navigate]);
+  }, [hadDietResults, colors]);
 
   return (
     <Background>
+      {hadDietResults && (
+        <Button
+          mt={40}
+          alignSelf="flex-end"
+          onPress={() => navigate("FoodHistory")}
+          title="Diet History"
+          mode="text"
+          suffix={<Icon name="right" color={colors.primary} pl="md" mt={4} />}
+        />
+      )}
+
       <FlatList
         ListHeaderComponent={renderHeader}
         contentContainerStyle={styles.contentContainerStyle}
@@ -129,8 +111,10 @@ const Home: React.FC<Props> = ({ navigation, navigation: { navigate } }) => {
                 rounded="md"
               >
                 <Div row justifyContent="space-between">
-                  <Div>
-                    <Text fontSize="2xl">{item.name}</Text>
+                  <Div flex={1}>
+                    <Text fontFamily="RobotoMedium" fontSize="xl">
+                      {item.name}
+                    </Text>
                     <Text fontWeight="bold" color="gray500" fontSize="sm">
                       Measured In: {item.quantityType.type}
                     </Text>

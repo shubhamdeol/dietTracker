@@ -187,19 +187,47 @@ const RecordEntry: React.FC<Props> = ({
           />
         )}
         {!params?.editItemName && (
-          <Button
-            suffix={<Icon name="down" pl="lg" color={colors.primary} />}
-            title={selectedItem?.name || "Choose Item"}
-            disabled={!!params?.editItemName}
-            block
-            mode="outlined"
-            rounded="md"
-            h={44}
-            mt="xl"
-            onPress={() => navigate("FoodItems")}
-          />
+          <Div>
+            <Text fontSize="lg" mt="xl" mb="lg">
+              Choose Item
+            </Text>
+            <Pressable onPress={() => navigate("FoodItems")}>
+              <Div
+                borderWidth={1}
+                borderColor={colors.border}
+                justifyContent="center"
+                alignItems="center"
+                h={44}
+                flexDir="row"
+              >
+                <Text
+                  px={8}
+                  numberOfLines={1}
+                  adjustsFontSizeToFit
+                  color={selectedItem?.name ? colors.primary : colors.caption}
+                  fontSize="lg"
+                >
+                  {selectedItem?.name || "Ex: Egg omelet"}
+                </Text>
+                <Icon
+                  name="down"
+                  color={selectedItem?.name ? colors.primary : colors.caption}
+                />
+              </Div>
+            </Pressable>
+          </Div>
+          // <Button
+          //   suffix={<Icon name="down" pl="lg" color={colors.primary} />}
+          //   title={selectedItem?.name || "Choose Item"}
+          //   disabled={!!params?.editItemName}
+          //   block
+          //   mode="outlined"
+          //   rounded="md"
+          //   h={44}
+          //   mt="xl"
+          //   onPress={() => navigate("FoodItems")}
+          // />
         )}
-
         {!!selectedItem && (
           <Div>
             <Text pt="xl" pb="md" fontSize="lg">
