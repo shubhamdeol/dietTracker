@@ -5,6 +5,7 @@
 
 # How to run debug mode
 # Android
+- set up development environment. https://reactnative.dev/docs/environment-setup
 - ```yarn```
 - ```yarn android```
 
